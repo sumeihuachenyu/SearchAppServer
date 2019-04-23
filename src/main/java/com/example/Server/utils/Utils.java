@@ -1,13 +1,15 @@
 package com.example.Server.utils;
 
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
-import java.util.Base64;
-import java.util.Enumeration;
-import java.util.Set;
-import java.util.TreeSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lenovo on 2019-03-08.
@@ -40,15 +42,17 @@ public class Utils {
                 clientSig = request.getParameter("sign");
                 continue;
             }
+            System.out.print("parameterName="+parameterName);
             keySet.add(parameterName);
         }
 
         //3、参数名称和参数值链接成一个字符串A。
         for (String key : keySet) {
             String value = request.getParameter(key);
-            if (value == null) {
-                continue;
-            }
+//            if (value == null) {
+//                continue;
+//            }
+            System.out.print("key="+key);
             stringA.append(key);
             stringA.append("=");
             stringA.append(value);
@@ -87,6 +91,72 @@ public class Utils {
 
         //如果服务器端生成的API签名与客户端请求的API签名是一致的，则请求是可信的，否则就是不可信的。
         return clientSig != null && sign != null && clientSig.equals(sign.toString());
+    }
+
+    /**
+     * 生成四位验证码
+     *
+     */
+    public static String runNumber() {
+        String str="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder sb=new StringBuilder(4);
+        for(int i=0;i<4;i++)
+        {
+            char ch=str.charAt(new Random().nextInt(str.length()));
+            sb.append(ch);
+        }
+        System.out.println(sb.toString());
+        String code = sb.toString();
+        return code;
+    }
+    /**
+     * 生成最终时间
+     */
+    public static String getEndTime(){
+        long currentTime = System.currentTimeMillis() + 30 * 60 * 1000;
+        Date date = new Date(currentTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timestamp = sdf.format(date);
+        return timestamp;
+    }
+
+    /**
+     * 比较从数据库中获取的最终时间和当前时间进行比较
+     */
+    public static boolean compareTime(String time){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        String timestamp = df.format(new Date());
+        try {
+            Date dt1 = df.parse(time);//最终时间
+            Date dt2 = df.parse(timestamp);//当前时间
+            if (dt1.getTime() > dt2.getTime()) {
+                System.out.println("dt1在dt2前");
+                //如果最终时间大于当前时间，将数据库的数据取出重新发送一遍
+                return false;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                System.out.println("dt1在dt2后");
+                //如果最终时间小于当前时间，超出时间，需要进行修改，再次发生
+                return true;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return false;
+    }
+
+    //文件上传工具类服务方法
+    public static String uploadFile(byte[] file, String filePath, String fileName) throws Exception{
+        File targetFile = new File(filePath);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        FileOutputStream out = new FileOutputStream(filePath+fileName);
+        System.out.println("文件名称="+filePath+fileName);
+        out.write(file);
+        out.flush();
+        out.close();
+        return filePath+fileName;
     }
 }
 

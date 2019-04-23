@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.Server.dao.SearchMapper" >
+  <resultMap id="BaseResultMap" type="com.example.Server.entity.Search" >
+    <constructor >
+      <idArg column="searchid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="searchtitle" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="searchsubmittime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="searchtype" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="searchpersonid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="questionone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="questiontwo" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="questionthree" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remarks" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="isstop" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    searchid, searchtitle, searchsubmittime, searchtype, searchpersonid, questionone, 
+    questiontwo, questionthree, remarks, isstop
+  </sql>
+  <select id="selectByExampleDesc" resultMap="BaseResultMap" parameterType="com.example.Server.entity.SearchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from search
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <!--<if test="orderByClause != null" >-->
+      <!--order by ${orderByClause} DESC-->
+    <!--</if>-->
+    order by searchsubmittime DESC
+  </select>
+
+  <select id="selectByExampleAsc" resultMap="BaseResultMap" parameterType="com.example.Server.entity.SearchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from search
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <!--<if test="orderByClause != null" >-->
+      <!--order by ${orderByClause} ASC-->
+    <!--</if>-->
+    order by searchsubmittime ASC
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from search
+    where searchid = #{searchid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from search
+    where searchid = #{searchid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.Server.entity.SearchExample" >
+    delete from search
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.Server.entity.Search" >
+    insert into search (searchid, searchtitle, searchsubmittime, 
+      searchtype, searchpersonid, questionone, 
+      questiontwo, questionthree, remarks, 
+      isstop)
+    values (#{searchid,jdbcType=INTEGER}, #{searchtitle,jdbcType=VARCHAR}, #{searchsubmittime,jdbcType=VARCHAR}, 
+      #{searchtype,jdbcType=VARCHAR}, #{searchpersonid,jdbcType=INTEGER}, #{questionone,jdbcType=VARCHAR}, 
+      #{questiontwo,jdbcType=VARCHAR}, #{questionthree,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{isstop,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.Server.entity.Search" >
+    insert into search
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="searchid != null" >
+        searchid,
+      </if>
+      <if test="searchtitle != null" >
+        searchtitle,
+      </if>
+      <if test="searchsubmittime != null" >
+        searchsubmittime,
+      </if>
+      <if test="searchtype != null" >
+        searchtype,
+      </if>
+      <if test="searchpersonid != null" >
+        searchpersonid,
+      </if>
+      <if test="questionone != null" >
+        questionone,
+      </if>
+      <if test="questiontwo != null" >
+        questiontwo,
+      </if>
+      <if test="questionthree != null" >
+        questionthree,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="isstop != null" >
+        isstop,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="searchid != null" >
+        #{searchid,jdbcType=INTEGER},
+      </if>
+      <if test="searchtitle != null" >
+        #{searchtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="searchsubmittime != null" >
+        #{searchsubmittime,jdbcType=VARCHAR},
+      </if>
+      <if test="searchtype != null" >
+        #{searchtype,jdbcType=VARCHAR},
+      </if>
+      <if test="searchpersonid != null" >
+        #{searchpersonid,jdbcType=INTEGER},
+      </if>
+      <if test="questionone != null" >
+        #{questionone,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontwo != null" >
+        #{questiontwo,jdbcType=VARCHAR},
+      </if>
+      <if test="questionthree != null" >
+        #{questionthree,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isstop != null" >
+        #{isstop,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.Server.entity.SearchExample" resultType="java.lang.Integer" >
+    select count(*) from search
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update search
+    <set >
+      <if test="record.searchid != null" >
+        searchid = #{record.searchid,jdbcType=INTEGER},
+      </if>
+      <if test="record.searchtitle != null" >
+        searchtitle = #{record.searchtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.searchsubmittime != null" >
+        searchsubmittime = #{record.searchsubmittime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.searchtype != null" >
+        searchtype = #{record.searchtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.searchpersonid != null" >
+        searchpersonid = #{record.searchpersonid,jdbcType=INTEGER},
+      </if>
+      <if test="record.questionone != null" >
+        questionone = #{record.questionone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questiontwo != null" >
+        questiontwo = #{record.questiontwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questionthree != null" >
+        questionthree = #{record.questionthree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isstop != null" >
+        isstop = #{record.isstop,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update search
+    set searchid = #{record.searchid,jdbcType=INTEGER},
+      searchtitle = #{record.searchtitle,jdbcType=VARCHAR},
+      searchsubmittime = #{record.searchsubmittime,jdbcType=VARCHAR},
+      searchtype = #{record.searchtype,jdbcType=VARCHAR},
+      searchpersonid = #{record.searchpersonid,jdbcType=INTEGER},
+      questionone = #{record.questionone,jdbcType=VARCHAR},
+      questiontwo = #{record.questiontwo,jdbcType=VARCHAR},
+      questionthree = #{record.questionthree,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      isstop = #{record.isstop,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.Server.entity.Search" >
+    update search
+    <set >
+      <if test="searchtitle != null" >
+        searchtitle = #{searchtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="searchsubmittime != null" >
+        searchsubmittime = #{searchsubmittime,jdbcType=VARCHAR},
+      </if>
+      <if test="searchtype != null" >
+        searchtype = #{searchtype,jdbcType=VARCHAR},
+      </if>
+      <if test="searchpersonid != null" >
+        searchpersonid = #{searchpersonid,jdbcType=INTEGER},
+      </if>
+      <if test="questionone != null" >
+        questionone = #{questionone,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontwo != null" >
+        questiontwo = #{questiontwo,jdbcType=VARCHAR},
+      </if>
+      <if test="questionthree != null" >
+        questionthree = #{questionthree,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isstop != null" >
+        isstop = #{isstop,jdbcType=INTEGER},
+      </if>
+    </set>
+    where searchid = #{searchid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.Server.entity.Search" >
+    update search
+    set searchtitle = #{searchtitle,jdbcType=VARCHAR},
+      searchsubmittime = #{searchsubmittime,jdbcType=VARCHAR},
+      searchtype = #{searchtype,jdbcType=VARCHAR},
+      searchpersonid = #{searchpersonid,jdbcType=INTEGER},
+      questionone = #{questionone,jdbcType=VARCHAR},
+      questiontwo = #{questiontwo,jdbcType=VARCHAR},
+      questionthree = #{questionthree,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      isstop = #{isstop,jdbcType=INTEGER}
+    where searchid = #{searchid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * Created by lenovo on 2019-03-08.
@@ -24,7 +25,7 @@ public class OpenApiRequestCheckFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("----------------------->过滤器被拦截");
+        System.out.println("----------------------->过滤器通过");
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -40,6 +41,9 @@ public class OpenApiRequestCheckFilter implements Filter {
         String apiSecret = "ssssss";
 
         ///对API接口签名进行验证
+        StringBuffer sb = request.getRequestURL();
+        System.out.println("parameterNames"+ request.getQueryString());
+        System.out.println("sb="+sb);
         boolean sigCheckResult = Utils.checkSig(request, apiSecret);
         if (sigCheckResult) {
             //API签名验证通过

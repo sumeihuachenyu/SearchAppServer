@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.Server.dao.JoinRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.example.Server.entity.JoinRecord" >
+    <constructor >
+      <idArg column="joinid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="joinpersonid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="jointime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="answerone" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="answertwo" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="answerthree" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="otheranswer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="searchid" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    joinid, joinpersonid, jointime, answerone, answertwo, answerthree, otheranswer, searchid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.Server.entity.JoinRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from joinrecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from joinrecord
+    where joinid = #{joinid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from joinrecord
+    where joinid = #{joinid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.Server.entity.JoinRecordExample" >
+    delete from joinrecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.Server.entity.JoinRecord" >
+    insert into joinrecord (joinid, joinpersonid, jointime, 
+      answerone, answertwo, answerthree, 
+      otheranswer, searchid)
+    values (#{joinid,jdbcType=INTEGER}, #{joinpersonid,jdbcType=INTEGER}, #{jointime,jdbcType=VARCHAR}, 
+      #{answerone,jdbcType=INTEGER}, #{answertwo,jdbcType=INTEGER}, #{answerthree,jdbcType=INTEGER}, 
+      #{otheranswer,jdbcType=VARCHAR}, #{searchid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.Server.entity.JoinRecord" >
+    insert into joinrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="joinid != null" >
+        joinid,
+      </if>
+      <if test="joinpersonid != null" >
+        joinpersonid,
+      </if>
+      <if test="jointime != null" >
+        jointime,
+      </if>
+      <if test="answerone != null" >
+        answerone,
+      </if>
+      <if test="answertwo != null" >
+        answertwo,
+      </if>
+      <if test="answerthree != null" >
+        answerthree,
+      </if>
+      <if test="otheranswer != null" >
+        otheranswer,
+      </if>
+      <if test="searchid != null" >
+        searchid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="joinid != null" >
+        #{joinid,jdbcType=INTEGER},
+      </if>
+      <if test="joinpersonid != null" >
+        #{joinpersonid,jdbcType=INTEGER},
+      </if>
+      <if test="jointime != null" >
+        #{jointime,jdbcType=VARCHAR},
+      </if>
+      <if test="answerone != null" >
+        #{answerone,jdbcType=INTEGER},
+      </if>
+      <if test="answertwo != null" >
+        #{answertwo,jdbcType=INTEGER},
+      </if>
+      <if test="answerthree != null" >
+        #{answerthree,jdbcType=INTEGER},
+      </if>
+      <if test="otheranswer != null" >
+        #{otheranswer,jdbcType=VARCHAR},
+      </if>
+      <if test="searchid != null" >
+        #{searchid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.Server.entity.JoinRecordExample" resultType="java.lang.Integer" >
+    select count(*) from joinrecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update joinrecord
+    <set >
+      <if test="record.joinid != null" >
+        joinid = #{record.joinid,jdbcType=INTEGER},
+      </if>
+      <if test="record.joinpersonid != null" >
+        joinpersonid = #{record.joinpersonid,jdbcType=INTEGER},
+      </if>
+      <if test="record.jointime != null" >
+        jointime = #{record.jointime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answerone != null" >
+        answerone = #{record.answerone,jdbcType=INTEGER},
+      </if>
+      <if test="record.answertwo != null" >
+        answertwo = #{record.answertwo,jdbcType=INTEGER},
+      </if>
+      <if test="record.answerthree != null" >
+        answerthree = #{record.answerthree,jdbcType=INTEGER},
+      </if>
+      <if test="record.otheranswer != null" >
+        otheranswer = #{record.otheranswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.searchid != null" >
+        searchid = #{record.searchid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update joinrecord
+    set joinid = #{record.joinid,jdbcType=INTEGER},
+      joinpersonid = #{record.joinpersonid,jdbcType=INTEGER},
+      jointime = #{record.jointime,jdbcType=VARCHAR},
+      answerone = #{record.answerone,jdbcType=INTEGER},
+      answertwo = #{record.answertwo,jdbcType=INTEGER},
+      answerthree = #{record.answerthree,jdbcType=INTEGER},
+      otheranswer = #{record.otheranswer,jdbcType=VARCHAR},
+      searchid = #{record.searchid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.Server.entity.JoinRecord" >
+    update joinrecord
+    <set >
+      <if test="joinpersonid != null" >
+        joinpersonid = #{joinpersonid,jdbcType=INTEGER},
+      </if>
+      <if test="jointime != null" >
+        jointime = #{jointime,jdbcType=VARCHAR},
+      </if>
+      <if test="answerone != null" >
+        answerone = #{answerone,jdbcType=INTEGER},
+      </if>
+      <if test="answertwo != null" >
+        answertwo = #{answertwo,jdbcType=INTEGER},
+      </if>
+      <if test="answerthree != null" >
+        answerthree = #{answerthree,jdbcType=INTEGER},
+      </if>
+      <if test="otheranswer != null" >
+        otheranswer = #{otheranswer,jdbcType=VARCHAR},
+      </if>
+      <if test="searchid != null" >
+        searchid = #{searchid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where joinid = #{joinid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.Server.entity.JoinRecord" >
+    update joinrecord
+    set joinpersonid = #{joinpersonid,jdbcType=INTEGER},
+      jointime = #{jointime,jdbcType=VARCHAR},
+      answerone = #{answerone,jdbcType=INTEGER},
+      answertwo = #{answertwo,jdbcType=INTEGER},
+      answerthree = #{answerthree,jdbcType=INTEGER},
+      otheranswer = #{otheranswer,jdbcType=VARCHAR},
+      searchid = #{searchid,jdbcType=VARCHAR}
+    where joinid = #{joinid,jdbcType=INTEGER}
+  </update>
+</mapper>
